@@ -17,11 +17,11 @@ jobs:
       #   uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # v2.2.0
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@d70bba72b1f3fd22344832f00baa16ece964efeb # v3.3.0
-      - name: DockerHub Login
-        uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3.1.0
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #- name: DockerHub Login
+      #  uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3.1.0
+      #  with:
+      #    username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #    password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: GitHub Container Registry Login
         uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3.1.0
         with:
@@ -45,18 +45,18 @@ jobs:
           args: release --clean --release-notes=.release_notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          #HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
       - name: Clear Docker login session
         run: rm -f ${HOME}/.docker/config.json
-      - name: Generate AUR PKGBUILD
-        run: ./scripts/generate_aur_pkgbuild.sh ${{ steps.git.outputs.tag_version }}
-      - name: Publish AUR package
-        uses: KSXGitHub/github-actions-deploy-aur@9dfe151cf48f26a957bbd0379c120e79cb990e13 # v2.7.2
-        with:
-          pkgname: upcloud-cli
-          pkgbuild: PKGBUILD
-          commit_username: ${{ secrets.AUR_USERNAME }}
-          commit_email: ${{ secrets.AUR_EMAIL }}
-          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
-          commit_message: Release ${{ steps.git.outputs.tag_version }}
-          force_push: true
+      #- name: Generate AUR PKGBUILD
+      #  run: ./scripts/generate_aur_pkgbuild.sh ${{ steps.git.outputs.tag_version }}
+      #- name: Publish AUR package
+      #  uses: KSXGitHub/github-actions-deploy-aur@9dfe151cf48f26a957bbd0379c120e79cb990e13 # v2.7.2
+      #  with:
+      #    pkgname: upcloud-cli
+      #    pkgbuild: PKGBUILD
+      #    commit_username: ${{ secrets.AUR_USERNAME }}
+      #    commit_email: ${{ secrets.AUR_EMAIL }}
+      #    ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+      #    commit_message: Release ${{ steps.git.outputs.tag_version }}
+      #    force_push: true
