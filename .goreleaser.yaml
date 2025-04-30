@@ -90,62 +90,6 @@ nfpms:
       # but required by old distros like CentOS 5 / EL 5 and earlier.
       group: Unspecified
 
-brews:
-  - # GOARM to specify which 32-bit arm version to use if there are multiple versions
-    # from the build section. Brew formulas support atm only one 32-bit version.
-    # Default is 6 for all artifacts or each id if there a multiple versions.
-    goarm: 6
-
-    # NOTE: make sure the url_template, the token and given repo (github or gitlab) owner and name are from the
-    # same kind. We will probably unify this in the next major version like it is done with scoop.
-    # GitHub/GitLab repository to push the formula to
-    # Gitea is not supported yet, but the support coming
-    repository:
-      owner: UpCloudLtd
-      name: homebrew-tap
-
-      # Optionally a token can be provided, if it differs from the token provided to GoReleaser
-      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-    commit_author:
-      name: goreleaserbot
-      email: goreleaser@carlosbecker.com
-
-    # Folder inside the repository to put the formula.
-    # Default is the root folder.
-    directory: Formula
-
-    homepage: "https://upcloud.com/"
-    description: "CLI tool for managing UpCloud services."
-    license: "MIT"
-
-    # Setting this will prevent goreleaser to actually try to commit the updated
-    # formula - instead, the formula file will be stored on the dist folder only,
-    # leaving the responsibility of publishing it to the user.
-    # If set to auto, the release will not be uploaded to the homebrew tap
-    # in case there is an indicator for prerelease in the tag e.g. v1.0.0-rc1
-    # Default is false.
-    skip_upload: false
-
-    # Custom block for brew.
-    # Can be used to specify alternate downloads for devel or head releases.
-    # Default is empty.
-    custom_block: |
-      head "https://github.com/UpCloudLtd/upcloud-cli.git"
-
-    # Packages your package depends on.
-    dependencies:
-      - name: bash-completion
-        type: optional
-
-    # Custom install script for brew.
-    install: |
-      bin.install "upctl"
-      #
-
-    # So you can `brew test` your formula.
-    # Default is empty.
-    test: |
-      system "#{bin}/upctl version"
 
 sboms:
   - documents:
@@ -155,7 +99,7 @@ release:
   # Repo in which the release will be created.
   # Default is extracted from the origin remote URL or empty if its private hosted.
   github:
-    owner: UpCloudLtd
+    owner: scop
     name: upcloud-cli
 
   # If set to true, will not auto-publish the release.
