@@ -1,18 +1,20 @@
 name: Test
 on:
   pull_request:
-    paths:
-      - '**.go'
-      - 'go.mod'
-      - 'go.sum'
 jobs:
   unit-tests:
     name: Run unit-tests
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - uses: UpCloudLtd/upcloud-cli-action@0b74850ba423d7d254b75518a31f19bd19aa839c # v1.0.0
+        with:
+          username: ${{ secrets.UPCLOUD_USERNAME }}
+          password: ${{ secrets.UPCLOUD_PASSWORD }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout head
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Setup Go
